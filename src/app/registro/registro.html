@@ -1,0 +1,148 @@
+<div class="contenedor">
+  <h2>Registro de Usuario</h2>
+
+  <form #registroForm="ngForm" (ngSubmit)="registrar(registroForm)" novalidate>
+
+    <!-- ================= NOMBRE ================= -->
+    <div class="campo">
+      <label for="nombre">Nombre</label>
+      <input
+        id="nombre"
+        name="nombre"
+        type="text"
+        placeholder="Escribe tu nombre"
+        [(ngModel)]="usuario.nombre"
+        #nombre="ngModel"
+        required
+        minlength="3">
+
+      @if (nombre.invalid && (nombre.touched || nombre.dirty)) {
+        <div class="error">
+          @if (nombre.errors?.['required']) {
+            <small>El nombre es obligatorio.</small>
+          }
+          @if (nombre.errors?.['minlength']) {
+            <small>El nombre debe tener al menos 3 caracteres.</small>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- ================= CORREO ================= -->
+    <div class="campo">
+      <label for="correo">Correo electrónico</label>
+      <input
+        id="correo"
+        name="correo"
+        type="email"
+        placeholder="ejemplo@correo.com"
+        [(ngModel)]="usuario.correo"
+        #correo="ngModel"
+        required
+        email
+        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
+
+      @if (correo.invalid && (correo.touched || correo.dirty)) {
+        <div class="error">
+          @if (correo.errors?.['required']) {
+            <small>El correo es obligatorio.</small>
+          }
+          @if (correo.errors?.['email'] || correo.errors?.['pattern']) {
+            <small>Ingresa un correo válido.</small>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- ================= TELÉFONO ================= -->
+    <div class="campo">
+      <label for="telefono">Teléfono</label>
+      <input
+        id="telefono"
+        name="telefono"
+        type="tel"
+        placeholder="Ej. 6641234567"
+        [(ngModel)]="usuario.telefono"
+        #telefono="ngModel"
+        required>
+
+      @if (telefono.invalid && (telefono.touched || telefono.dirty)) {
+        <div class="error">
+          @if (telefono.errors?.['required']) {
+            <small>El teléfono es obligatorio.</small>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- ================= EDAD ================= -->
+    <div class="campo">
+      <label for="edad">Edad</label>
+      <input
+        id="edad"
+        name="edad"
+        type="number"
+        placeholder="Debes ser mayor de edad"
+        [(ngModel)]="usuario.edad"
+        #edad="ngModel"
+        required
+        min="18">
+
+      @if (edad.invalid && (edad.touched || edad.dirty)) {
+        <div class="error">
+          @if (edad.errors?.['required']) {
+            <small>La edad es obligatoria.</small>
+          }
+          @if (edad.errors?.['min']) {
+            <small>Debes tener al menos 18 años.</small>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- ================= CONTRASEÑA ================= -->
+    <div class="campo">
+      <label for="contrasena">Contraseña</label>
+      <input
+        id="contrasena"
+        name="contrasena"
+        type="password"
+        placeholder="Mínimo 6 caracteres"
+        [(ngModel)]="usuario.contrasena"
+        #contrasena="ngModel"
+        required
+        minlength="6">
+
+      @if (contrasena.invalid && (contrasena.touched || contrasena.dirty)) {
+        <div class="error">
+          @if (contrasena.errors?.['required']) {
+            <small>La contraseña es obligatoria.</small>
+          }
+          @if (contrasena.errors?.['minlength']) {
+            <small>La contraseña debe tener al menos 6 caracteres.</small>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- ================= BOTÓN ================= -->
+    <button type="submit" [disabled]="registroForm.invalid">
+      Registrar
+    </button>
+
+    @if (registroForm.invalid) {
+      <p class="aviso">Completa correctamente todos los campos para habilitar el botón.</p>
+    }
+  </form>
+
+  <!-- ================= RESULTADO ================= -->
+  @if (datosRegistrados) {
+    <div class="exito">
+      <h3>✅ ¡Registro exitoso!</h3>
+      <p><strong>Nombre:</strong> {{ datosRegistrados.nombre }}</p>
+      <p><strong>Correo:</strong> {{ datosRegistrados.correo }}</p>
+      <p><strong>Teléfono:</strong> {{ datosRegistrados.telefono }}</p>
+      <p><strong>Edad:</strong> {{ datosRegistrados.edad }}</p>
+    </div>
+  }
+</div>
